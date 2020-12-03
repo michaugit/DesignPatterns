@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">SnapClone</string>
+    <string name="login_loginsignupactivity">LOG IN</string>
+    <string name="signup_loginsignupactivity">SIGN UP</string>
+    <string name="login_loginactivity">Log In</string>
+    <string name="username_loginactivity">USERNAME OR EMAIL</string>
+    <string name="password_loginactivity">PASSWORD</string>
+    <string name="forgot_password_loginactivity">Forgot your password?</string>
+    <string name="chat_name">Manon Philippot</string>
+    <string name="chat_time">Tap to load - 33 min ago</string>
+</resources>
