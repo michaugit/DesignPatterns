@@ -9,4 +9,5 @@
     <string name="chat_time">Tap to load, Drag to manage</string>
     <string name="user_videos">USER VIDEOS</string>
     <string name="story_videos">STORY VIDEOS</string>
+    <string name="record_video">RECORD VIDEO</string>
 </resources>
