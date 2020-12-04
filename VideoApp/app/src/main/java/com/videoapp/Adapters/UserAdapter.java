@@ -47,7 +47,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ChatViewHolder
 
         public ChatViewHolder(View itemView) {
             super(itemView);
-//            typeChat = itemView.findViewById(R.id.snap_square);
 //            name = itemView.findViewById(R.id.snap_name);
 //            date = itemView.findViewById(R.id.snap_date);
             itemView.setOnClickListener(this);

@@ -9,7 +9,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.manon.snapclone.AppActivity.LoginActivity">
+        tools:context="com.videoapp.AppActivity.LoginActivity">
 
         <TextView
             android:id="@+id/login_connexion_text"

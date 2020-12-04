@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                System.out.println("XDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDPosition: " + position + "   positionOffSet: " + positionOffset);
                 if (position == 0) {
                     background.setBackgroundColor(getResources().getColor(R.color.greenAGH));
                     background.setAlpha(1 - positionOffset);

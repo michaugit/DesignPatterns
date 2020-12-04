@@ -6,6 +6,7 @@
     <string name="username_loginactivity">USERNAME OR EMAIL</string>
     <string name="password_loginactivity">PASSWORD</string>
     <string name="forgot_password_loginactivity">Forgot your password?</string>
-    <string name="chat_name">Manon Philippot</string>
-    <string name="chat_time">Tap to load - 33 min ago</string>
+    <string name="chat_time">Tap to load, Drag to manage</string>
+    <string name="user_videos">USER VIDEOS</string>
+    <string name="story_videos">STORY VIDEOS</string>
 </resources>

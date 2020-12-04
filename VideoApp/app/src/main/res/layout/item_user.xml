@@ -4,33 +4,36 @@
     android:layout_height="80dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <View
-        android:id="@+id/snap_square"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+
+
+    <ImageView
+        android:id="@+id/movie_miniature"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginStart="16dp"/>
+        android:src="@drawable/video_miniature" />
 
     <TextView
-        android:id="@+id/snap_name"
+        android:id="@+id/video_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="XDDDDDDDD"
+        android:text="SOME MOVIES..."
         android:textStyle="bold"
         android:textColor="@color/colorBlack"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/snap_square"
+        app:layout_constraintStart_toEndOf="@id/movie_miniature"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:layout_constraintVertical_bias="0.38" />
 
     <TextView
-        android:id="@+id/snap_date"
+        android:id="@+id/video_descryption"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/chat_time"
@@ -38,8 +41,8 @@
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/snap_square"
-        app:layout_constraintTop_toBottomOf="@id/snap_name"
+        app:layout_constraintStart_toEndOf="@id/movie_miniature"
+        app:layout_constraintTop_toBottomOf="@id/video_name"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:layout_constraintVertical_bias="0.0" />
