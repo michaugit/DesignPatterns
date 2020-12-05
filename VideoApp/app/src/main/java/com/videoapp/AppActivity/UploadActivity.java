@@ -69,10 +69,6 @@ public class UploadActivity extends Activity {
         filePath = i.getStringExtra("filePath");
 
 
-        System.out.println("XDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD:   " + filePath );
-
-
-
         if (filePath != null) {
             // Displaying the image or video on the screen
             previewMedia();

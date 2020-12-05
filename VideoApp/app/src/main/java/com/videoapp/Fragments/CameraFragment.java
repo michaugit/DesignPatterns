@@ -1,7 +1,9 @@
 package com.videoapp.Fragments;
 
 
+import android.content.ClipData;
 import android.content.ContentValues;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
@@ -96,9 +98,9 @@ public class CameraFragment extends Fragment{
                     Toast.LENGTH_LONG).show();
             // will close the app if the device does't have camera
         }
+
         return view;
     }
-
 
     /**
      * Checking device has camera hardware or not
@@ -124,15 +126,10 @@ public class CameraFragment extends Fragment{
         fileUriPath = videoFile.getAbsolutePath();
         fileUri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID + ".provider", videoFile);
 
-        System.out.println("XDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD fileUri path:   " + fileUri.getPath());
-
-
         intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-//        TODO nie działa zapisywanie w pokazanej ścieżce :(
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file
-
         // start the video capture Intent
-        startActivityForResult(intent, CAMERA_CAPTURE_VIDEO_REQUEST_CODE);
+        getActivity().startActivityForResult(intent, CAMERA_CAPTURE_VIDEO_REQUEST_CODE);
     }
 
     /**
@@ -153,6 +150,7 @@ public class CameraFragment extends Fragment{
      * */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_CAPTURE_VIDEO_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
 
@@ -179,7 +177,7 @@ public class CameraFragment extends Fragment{
     private void launchUploadActivity(){
         Intent i = new Intent(getContext(), UploadActivity.class);
         i.putExtra("filePath", fileUriPath);
-        startActivity(i);
+        getActivity().startActivity(i);
     }
 
     /**
@@ -222,8 +220,8 @@ public class CameraFragment extends Fragment{
             return null;
         }
 
-        System.out.println("XDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD mediaFile:   " + mediaFile.getAbsolutePath() );
         return mediaFile;
     }
+
 
 }
