@@ -8,14 +8,6 @@
 
 
 
-    <!-- To display picture taken -->
-
-    <ImageView
-        android:id="@+id/imgPreview"
-        android:layout_width="fill_parent"
-        android:layout_height="200dp"
-        android:visibility="gone"
-        android:layout_marginTop="15dp"/>
 
     <!-- Videoview to preview recorded video -->
 

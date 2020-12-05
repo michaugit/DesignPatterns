@@ -128,6 +128,7 @@ public class CameraFragment extends Fragment{
 
 
         intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+//        TODO nie działa zapisywanie w pokazanej ścieżce :(
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file
 
         // start the video capture Intent
@@ -224,6 +225,5 @@ public class CameraFragment extends Fragment{
         System.out.println("XDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD mediaFile:   " + mediaFile.getAbsolutePath() );
         return mediaFile;
     }
-
 
 }

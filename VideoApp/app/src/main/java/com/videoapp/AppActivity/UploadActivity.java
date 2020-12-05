@@ -43,7 +43,6 @@ public class UploadActivity extends Activity {
     private ProgressBar progressBar;
     private String filePath = null;
     private TextView txtPercentage;
-    private ImageView imgPreview;
     private VideoView vidPreview;
     private Button btnUpload;
     long totalSize = 0;
@@ -56,7 +55,6 @@ public class UploadActivity extends Activity {
         txtPercentage = (TextView) findViewById(R.id.txtPercentage);
         btnUpload = (Button) findViewById(R.id.btnUpload);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        imgPreview = (ImageView) findViewById(R.id.imgPreview);
         vidPreview = (VideoView) findViewById(R.id.videoPreview);
 
         // Changing action bar background color
@@ -99,7 +97,6 @@ public class UploadActivity extends Activity {
      * Displaying captured image/video on the screen
      * */
     private void previewMedia() {
-            imgPreview.setVisibility(View.GONE);
             vidPreview.setVisibility(View.VISIBLE);
             vidPreview.setVideoPath(filePath);
             // start playing
