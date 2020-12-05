@@ -5,6 +5,7 @@ plugins {
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
+    useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
         applicationId "com.videoapp"
@@ -29,6 +30,7 @@ android {
 }
 
 dependencies {
+    implementation "org.apache.httpcomponents:httpmime:4.2.3"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'

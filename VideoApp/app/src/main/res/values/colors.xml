@@ -12,7 +12,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
-    <color name="snapchat">#FFFC00</color>
     <color name="colorRed">#F23C57</color>
     <color name="colorBlue">#0EADFF</color>
     <color name="colorLightBlule">#0eadff</color>
@@ -22,4 +21,8 @@
     <color name="greenAGH">#046939</color>
     <color name="blackAGH">#202020</color>
     <color name="redAGH">#A61832</color>
+    <color name="view_background">#e8ecfa</color>
+    <color name="btn_bg">#277bec</color>
+    <color name="txt_font">#4e5572</color>
+    <color name="action_bar">#1f2649</color>
 </resources>
