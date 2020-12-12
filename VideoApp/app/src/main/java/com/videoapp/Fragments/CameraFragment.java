@@ -5,6 +5,8 @@ import android.content.ClipData;
 import android.content.ContentValues;
 import android.os.Build;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,6 +60,9 @@ public class CameraFragment extends Fragment{
     // LogCat tag
     private static final String TAG = com.videoapp.AppActivity.MainActivity.class.getSimpleName();
 
+    private static final int CAMERA_PERMISSION_CODE = 100;
+    private static final int STORAGE_PERMISSION_CODE = 101;
+
     // Camera activity request codes
     private static final int CAMERA_CAPTURE_VIDEO_REQUEST_CODE = 200;
     public static final int MEDIA_TYPE_VIDEO = 2;
@@ -85,8 +90,15 @@ public class CameraFragment extends Fragment{
 
             @Override
             public void onClick(View v) {
+                boolean  write_perm = checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        STORAGE_PERMISSION_CODE);
+                boolean  camera_perm = checkPermission(Manifest.permission.CAMERA,
+                        CAMERA_PERMISSION_CODE);
+
                 // record video
-                recordVideo();
+                if(camera_perm && write_perm){
+                    recordVideo();
+                }
             }
         });
 
@@ -223,5 +235,62 @@ public class CameraFragment extends Fragment{
         return mediaFile;
     }
 
+
+    public boolean checkPermission(String permission, int requestCode)
+    {
+        if (ContextCompat.checkSelfPermission(getContext(), permission)
+                == PackageManager.PERMISSION_DENIED) {
+            // Requesting the permission
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[] { permission },
+                    requestCode);
+        }
+        else {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults)
+    {
+        super
+                .onRequestPermissionsResult(requestCode,
+                        permissions,
+                        grantResults);
+
+        if (requestCode == CAMERA_PERMISSION_CODE) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(getContext(),
+                        "Camera Permission Granted",
+                        Toast.LENGTH_SHORT)
+                        .show();
+            }
+            else {
+                Toast.makeText(getContext(),
+                        "Camera Permission Denied",
+                        Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }
+        else if (requestCode == STORAGE_PERMISSION_CODE) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(getContext(),
+                        "Storage Permission Granted",
+                        Toast.LENGTH_SHORT)
+                        .show();
+            }
+            else {
+                Toast.makeText(getContext(),
+                        "Storage Permission Denied",
+                        Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }
+    }
 
 }

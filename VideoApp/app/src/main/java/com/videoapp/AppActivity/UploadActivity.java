@@ -154,7 +154,7 @@ public class UploadActivity extends Activity {
 
                 totalSize = entity.getContentLength();
                 httppost.setEntity(entity);
-
+                
                 // Making server call
                 HttpResponse response = httpclient.execute(httppost);
                 HttpEntity r_entity = response.getEntity();
