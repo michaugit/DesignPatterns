@@ -140,6 +140,7 @@ public class CameraFragment extends Fragment{
 
         intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file
+        
         // start the video capture Intent
         getActivity().startActivityForResult(intent, CAMERA_CAPTURE_VIDEO_REQUEST_CODE);
     }
