@@ -8,16 +8,23 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.videoapp.R;
+import com.videoapp.Video;
+
+import java.util.ArrayList;
 
 
 public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ChatViewHolder>{
 
-    private int nbItems;
+    private ArrayList<Video> dataList;
     final private ListItemClickListener mOnClickListener;
 
-    public StoryAdapter(int nbItems, ListItemClickListener clickListener){
-        this.nbItems = nbItems;
+    public StoryAdapter(ArrayList<Video> dataList, ListItemClickListener clickListener){
+        this.dataList = dataList;
         mOnClickListener = clickListener;
+    }
+
+    public Video getVideo(int positionIndex){
+        return dataList.get(positionIndex);
     }
 
     @Override
@@ -29,11 +36,13 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ChatViewHold
 
     @Override
     public void onBindViewHolder(ChatViewHolder holder, int position) {
+        String nameOfVideo = dataList.get(position).name;
+        holder.videoName.setText(nameOfVideo);
     }
 
     @Override
     public int getItemCount() {
-        return nbItems;
+        return dataList.size();
     }
 
     public interface ListItemClickListener {
@@ -42,14 +51,11 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ChatViewHold
 
     public class ChatViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        View typeChat;
-        TextView name;
-        TextView date;
+        TextView videoName;
 
         public ChatViewHolder(View itemView) {
             super(itemView);
-//            name = itemView.findViewById(R.id.snap_name);
-//            date = itemView.findViewById(R.id.snap_date);
+            videoName = itemView.findViewById(R.id.video_name);
             itemView.setOnClickListener(this);
         }
 

@@ -13,6 +13,9 @@ import android.widget.Toast;
 import com.videoapp.Adapters.StoryAdapter;
 import com.videoapp.Adapters.UserAdapter;
 import com.videoapp.R;
+import com.videoapp.Video;
+
+import java.util.ArrayList;
 
 public class StoryFragment extends Fragment implements StoryAdapter.ListItemClickListener  {
 
@@ -35,7 +38,7 @@ public class StoryFragment extends Fragment implements StoryAdapter.ListItemClic
         recycler.setLayoutManager(layoutManager);
         recycler.setHasFixedSize(true);
 
-        adapter = new StoryAdapter(25, this);
+        adapter = new StoryAdapter(fetchMoviesFromServerSimulator(), this);
         recycler.setAdapter(adapter);
 
         return view;
@@ -43,10 +46,34 @@ public class StoryFragment extends Fragment implements StoryAdapter.ListItemClic
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
+        Video clickedVideo = adapter.getVideo(clickedItemIndex);
+        playVideo(clickedVideo);
+    }
+
+    private void playVideo(Video video){
         if (toast != null) {
             toast.cancel();
         }
-        toast = Toast.makeText(getContext(), Integer.toString(clickedItemIndex), Toast.LENGTH_SHORT);
-        toast.show();
+        String message = "On Click play on " + video.name;
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    public ArrayList<Video> fetchMoviesFromServerSimulator(){
+        ArrayList<Video> dataList =  new ArrayList<>();
+        dataList.add(new Video("STORY Film nr 1"));
+        dataList.add(new Video("STORY Film nr 2"));
+        dataList.add(new Video("STORY Film nr 3"));
+        dataList.add(new Video("STORY Film nr 4"));
+        dataList.add(new Video("STORY Film nr 5"));
+        dataList.add(new Video("STORY Film nr 6"));
+        dataList.add(new Video("STORY Film nr 7"));
+        dataList.add(new Video("STORY Film nr 8"));
+        dataList.add(new Video("STORY Film nr 9"));
+        dataList.add(new Video("STORY Film nr 10"));
+        dataList.add(new Video("STORY Film nr 11"));
+        dataList.add(new Video("STORY Film nr 12"));
+        dataList.add(new Video("STORY Film nr 13"));
+
+        return  dataList;
     }
 }
