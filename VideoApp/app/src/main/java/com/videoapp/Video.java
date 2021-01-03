@@ -10,4 +10,12 @@ public class Video {
         this.id=nameOfMovie+"_id_";
         this.visible= true;
     }
+
+    public String checkType(){
+        if (this.visible == true){
+            return "public";
+        }else{
+            return "private";
+        }
+    }
 }

@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.videoapp.Adapters.StoryAdapter;
 import com.videoapp.Adapters.UserAdapter;
 import com.videoapp.R;
+import com.videoapp.ServerConnector;
 import com.videoapp.Video;
 
 import java.util.ArrayList;
@@ -59,6 +60,8 @@ public class StoryFragment extends Fragment implements StoryAdapter.ListItemClic
     }
 
     public ArrayList<Video> fetchMoviesFromServerSimulator(){
+        //JSONObject jsonResponse = ServerConnector.getList("story-videos");
+        //TODO get from json
         ArrayList<Video> dataList =  new ArrayList<>();
         dataList.add(new Video("STORY Film nr 1"));
         dataList.add(new Video("STORY Film nr 2"));

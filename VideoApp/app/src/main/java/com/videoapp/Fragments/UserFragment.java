@@ -16,9 +16,13 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.videoapp.Adapters.UserAdapter;
+import com.videoapp.ServerConnector;
 import com.videoapp.Video;
 import com.videoapp.R;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class UserFragment extends Fragment implements UserAdapter.ListItemClickListener {
@@ -79,11 +83,21 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.visibility:
-                        changeVisibility(videoClicked);
+                        try {
+                            changeVisibility(videoClicked);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         return true;
 
                     case R.id.deletion:
-                        deleteVideo(videoClicked);
+
+                        try {
+                            deleteVideo(videoClicked);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
                         return true;
                 }
 
@@ -94,32 +108,54 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
     }
 
     public void playVideo(Video video){
-        if (toast != null) {
-            toast.cancel();
+//        if (toast != null) {
+//            toast.cancel();
+//        }
+        int statusCode = ServerConnector.playVideo(video.name);
+        if(statusCode == 200){
+            //TODO implement hls streaming!
+        }if(statusCode == 404){
+            ServerConnector.showAlert("Video not found", this.getContext());
+        }if(statusCode == 511){
+            ServerConnector.showAlert("Session has expired.", this.getContext());
         }
-        String message = "On Click play on " + video.name;
-        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+//        String message = "On Click play on " + video.name;
+//        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
-    public void deleteVideo(Video video){
-        if (toast != null) {
-            toast.cancel();
+    public void deleteVideo(Video video) throws IOException {
+        int statusCode = ServerConnector.deleteVideo_URL(video.name);
+        if(ServerConnector.deleteVideo_URL(video.name) == 200){
+            adapter.deleteItem(video);
+            ServerConnector.showAlert("Video has been deleted.", this.getContext());
+        }if(statusCode == 404){
+            ServerConnector.showAlert("Video not found.", this.getContext());
+        }if(statusCode == 511){
+            ServerConnector.showAlert("Session has expired.", this.getContext());
         }
-        adapter.deleteItem(video);
-        Toast.makeText(getActivity(), "Clicked delete on" + video.name, Toast.LENGTH_SHORT).show();
+
     }
 
-    public void changeVisibility(Video video){
-        if (toast != null) {
-            toast.cancel();
+    public void changeVisibility(Video video) throws IOException {
+        int statusCode = ServerConnector.changeVisibility_URL(video.name, video.checkType());
+        if(statusCode == 200){
+            video.visible = !video.visible;
+            ServerConnector.showAlert("Video status changed to "+video.checkType(), this.getContext());
+        }if(statusCode == 404){
+            ServerConnector.showAlert("Video not found", this.getContext());
+        }if(statusCode == 406){
+            ServerConnector.showAlert("Not acceptable. Status is already "+video.checkType(), this.getContext());
+        }if(statusCode == 511){
+            ServerConnector.showAlert("Session has expired", this.getContext());
         }
-        video.visible = !video.visible;
-        Toast.makeText(getActivity(), "Clicked change visiblity on" + video.name, Toast.LENGTH_SHORT).show();
+
     }
 
     public ArrayList<Video> fetchMoviesFromServerSimulator(){
+        //JSONObject jsonResponse = ServerConnector.getList("user-videos");
+        //TODO get from json
         ArrayList<Video> dataList =  new ArrayList<>();
-        dataList.add(new Video("Film nr 1"));
+        dataList.add(new Video("Filmnr1"));
         dataList.add(new Video("Film nr 2"));
         dataList.add(new Video("Film nr 3"));
         dataList.add(new Video("Film nr 4"));
