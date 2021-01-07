@@ -1,5 +1,6 @@
 package com.videoapp.AppActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,7 +21,6 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
 public class LoginActivity extends AppCompatActivity {
-
     private EditText editUsername;
     private EditText editPassword;
     private Button loginButton;
@@ -46,16 +46,15 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int statusCode = 0;
 //                if(editUsername.getText().toString().equals("dev") && editPassword.getText().toString().equals("dev")){
 //                    setResult(2);
 //                    startActivity(i);
 //                    finish();
 //                }
 
+                int statusCode = 444;
                 try {
                     statusCode = ServerConnector.login_URL(editUsername.getText().toString(), editPassword.getText().toString());
-                    System.out.println("XDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD: " + statusCode);
                 } catch (IOException | NoSuchAlgorithmException e) {
                     e.printStackTrace();
                 }
@@ -64,8 +63,12 @@ public class LoginActivity extends AppCompatActivity {
                     setResult(2);
                     startActivity(i);
                     finish();
+                }else if(statusCode == 400) {
+                    ServerConnector.showAlert("Username or password field cannot be empty!", context);
                 }else if(statusCode == 404){
                     ServerConnector.showAlert("User not found. Try again.", context);
+                }else if(statusCode == 444){
+                    ServerConnector.showAlert("Something went wrong while connecting to server.", context);
                 }else if(statusCode == 511){
                     ServerConnector.showAlert("Session has expired.", context);
                 }
@@ -114,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-
+    @SuppressLint("UseCompatLoadingForDrawables")
     private void checkColorEditText(){
         if (!TextUtils.isEmpty(editUsername.getText().toString()) && !TextUtils.isEmpty(editPassword.getText().toString())) {
             loginButton.setBackground(getResources().getDrawable(R.drawable.rounded_green_button));

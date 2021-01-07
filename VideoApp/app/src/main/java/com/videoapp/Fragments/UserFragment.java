@@ -37,7 +37,7 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
 
     private UserAdapter adapter;
     private RecyclerView recycler;
-    private Toast toast;
+    //private Toast toast;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -137,9 +137,9 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
         if(ServerConnector.deleteVideo_URL(video.name) == 200){
             adapter.deleteItem(video);
             ServerConnector.showAlert("Video has been deleted.", this.getContext());
-        }if(statusCode == 404){
-            ServerConnector.showAlert("Video not found.", this.getContext());
-        }if(statusCode == 511){
+        }else if(statusCode == 404){
+                ServerConnector.showAlert("Video not found.", this.getContext());
+        }else if(statusCode == 511){
             ServerConnector.showAlert("Session has expired.", this.getContext());
         }
 
@@ -150,11 +150,11 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
         if(statusCode == 200){
             video.visible = !video.visible;
             ServerConnector.showAlert("Video status changed to "+video.checkType(), this.getContext());
-        }if(statusCode == 404){
+        }else if(statusCode == 404){
             ServerConnector.showAlert("Video not found", this.getContext());
-        }if(statusCode == 406){
+        }else if(statusCode == 406){
             ServerConnector.showAlert("Not acceptable. Status is already "+video.checkType(), this.getContext());
-        }if(statusCode == 511){
+        }else if(statusCode == 511){
             ServerConnector.showAlert("Session has expired", this.getContext());
         }
 

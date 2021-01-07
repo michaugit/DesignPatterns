@@ -30,7 +30,7 @@ public class StoryFragment extends Fragment implements StoryAdapter.ListItemClic
 
     private StoryAdapter adapter;
     private RecyclerView recycler;
-    private Toast toast;
+   // private Toast toast;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,7 +42,6 @@ public class StoryFragment extends Fragment implements StoryAdapter.ListItemClic
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recycler.setLayoutManager(layoutManager);
         recycler.setHasFixedSize(true);
-
         adapter = new StoryAdapter(fetchMoviesFromServerSimulator(), this);
         recycler.setAdapter(adapter);
 
@@ -57,7 +56,6 @@ public class StoryFragment extends Fragment implements StoryAdapter.ListItemClic
 
     private void playVideo(Video video){
         String uri = new String(Config.DEFAULT_MOVIE_URL);
-
         Intent mpdIntent = new Intent(getContext(), PlayerActivity.class)
                 .setData(Uri.parse(uri));
         startActivity(mpdIntent);

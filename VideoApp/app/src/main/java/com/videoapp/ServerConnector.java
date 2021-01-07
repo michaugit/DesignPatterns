@@ -46,90 +46,21 @@ public class ServerConnector{
         return responseCode;
     }
 
-//    @SuppressWarnings("deprecation")
-    public static int login(String userName, String userPass) throws IOException {
-        int statusCode = 200;
-
-//        HttpClient httpclient = new DefaultHttpClient();
-//        try {
-//
-//            HttpPost httppost = new HttpPost(Config.LOGIN_URL);
-//            httppost.setHeader("Content-type", "text");
-//
-//
-//            List<NameValuePair> params = new ArrayList<NameValuePair>(2);
-//            params.add(new BasicNameValuePair("username", userName));
-//            params.add(new BasicNameValuePair("userpass", userPass));
-//            httppost.setEntity(new UrlEncodedFormEntity(params));
-//
-//            HttpResponse response = httpclient.execute(httppost);
-//            HttpEntity r_entity = response.getEntity();
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-////        finally
-////        {
-////            httpclient.getConnectionManager().shutdown();
-////        }
-
-        return statusCode;
-    }
-
     //TODO /stream
-    public static int playVideo_URL(String videoName) {
-
-        return 0;
-    }
-
-//    @SuppressWarnings("deprecation")
-    public static int playVideo(String videoName) {
-        int statusCode = 200;
-
-//        HttpClient httpclient = new DefaultHttpClient();
-//        try {
-
-//            HttpGet httpget = new HttpGet(Config.STREAM_VIDEO_URL + "?videoname=" + videoName);
-//            HttpResponse response = httpclient.execute(httpget);
-//            statusCode = response.getStatusLine().getStatusCode();
-//            HttpEntity respEnt = response.getEntity();
-            //TODO from respEnt get list and return it
-
+//    public static int playVideo_URL(String videoName) throws IOException {
+//        int statusCode;
 //
-//        } catch (ClientProtocolException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally
-//        {
-//            httpclient.getConnectionManager().shutdown();
-//        }
+//        statusCode = doSimpleGet(Config.DELETE_VIDEO_URL + "?videoname=" + videoName);
+//        return statusCode;
+//    }
 
-        return statusCode;
-    }
-
-//    @SuppressWarnings("deprecation")
-    public static int deleteVideo(String videoName){
-        int statusCode = 200;
+    //TODO /upload
+//    public static int upload(String videoName) throws IOException {
+//        int statusCode;
 //
-//        HttpClient httpclient = new DefaultHttpClient();
-//        try {
-//
-//            HttpGet httpget = new HttpGet(Config.DELETE_VIDEO_URL + "?videoname=" + videoName);
-//            HttpResponse response = httpclient.execute(httpget);
-//            statusCode = response.getStatusLine().getStatusCode();
-//
-//        } catch (ClientProtocolException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally
-//        {
-//            httpclient.getConnectionManager().shutdown();
-//        }
-//
-        return statusCode;
-    }
+//        statusCode = doSimpleGet(Config.DELETE_VIDEO_URL + "?videoname=" + videoName);
+//        return statusCode;
+//    }
 
     public static int deleteVideo_URL(String videoName) throws IOException {
         int statusCode;
@@ -142,28 +73,6 @@ public class ServerConnector{
         int statusCode;
 
         statusCode = doSimpleGet(Config.VIDEO_VISIBILITY_URL + "?change-visibility=" + videoName + "&change-type=" + changeType);
-        return statusCode;
-    }
-
-    public static int changeVisibility(String videoName, String changeType){
-        int statusCode = 200;
-//
-//        HttpClient httpclient = new DefaultHttpClient();
-//        try {
-//
-//            HttpGet httpget = new HttpGet(Config.VIDEO_VISIBILITY_URL+"?change-visibility="+videoName+"&change-type="+changeType);
-//            HttpResponse response = httpclient.execute(httpget);
-//            statusCode = response.getStatusLine().getStatusCode();
-//
-//        } catch (ClientProtocolException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally
-//        {
-//            httpclient.getConnectionManager().shutdown();
-//        }
-//
         return statusCode;
     }
 
@@ -246,7 +155,6 @@ public class ServerConnector{
         System.out.println(generatedPassword);
 
         return generatedPassword;
-
     }
 
 };
