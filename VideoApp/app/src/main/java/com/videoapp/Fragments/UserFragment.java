@@ -3,6 +3,8 @@ package com.videoapp.Fragments;
 
 import android.annotation.SuppressLint;
 import android.content.ClipData;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.PopupMenu;
@@ -16,7 +18,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.videoapp.Adapters.UserAdapter;
+import com.videoapp.AppActivity.PlayerActivity;
 import com.videoapp.ServerConnector;
+import com.videoapp.Upload.Config;
 import com.videoapp.Video;
 import com.videoapp.R;
 
@@ -108,19 +112,24 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
     }
 
     public void playVideo(Video video){
-//        if (toast != null) {
-//            toast.cancel();
+        String uri = new String(Config.DEFAULT_MOVIE_URL);
+
+        Intent mpdIntent = new Intent(getContext(),PlayerActivity.class)
+                .setData(Uri.parse(uri));
+        startActivity(mpdIntent);
+////        if (toast != null) {
+////            toast.cancel();
+////        }
+//        int statusCode = ServerConnector.playVideo(video.name);
+//        if(statusCode == 200){
+//            //TODO implement hls streaming!
+//        }if(statusCode == 404){
+//            ServerConnector.showAlert("Video not found", this.getContext());
+//        }if(statusCode == 511){
+//            ServerConnector.showAlert("Session has expired.", this.getContext());
 //        }
-        int statusCode = ServerConnector.playVideo(video.name);
-        if(statusCode == 200){
-            //TODO implement hls streaming!
-        }if(statusCode == 404){
-            ServerConnector.showAlert("Video not found", this.getContext());
-        }if(statusCode == 511){
-            ServerConnector.showAlert("Session has expired.", this.getContext());
-        }
-//        String message = "On Click play on " + video.name;
-//        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+////        String message = "On Click play on " + video.name;
+////        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     public void deleteVideo(Video video) throws IOException {

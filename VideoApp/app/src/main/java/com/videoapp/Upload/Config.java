@@ -11,6 +11,7 @@ public class Config {
 
     //public static final String STREAM_VIDEO_URL = "http://10.0.2.2:8080/dp_server_test_war_exploded/stream";
     //public static final String UPLOAD_VIDEO_URL = "http://10.0.0.2:8080/dp_server_test_war_exploded/upload";
+    public static final String DEFAULT_MOVIE_URL = "http://10.0.2.2:8081/video/index.m3u8";
 
     // Directory name to store captured images and videos
     public static final String IMAGE_DIRECTORY_NAME = "AndroidFileUpload";
