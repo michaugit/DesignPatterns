@@ -55,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 try {
                     statusCode = ServerConnector.login_URL(editUsername.getText().toString(), editPassword.getText().toString());
+                    System.out.println("XDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD: " + statusCode);
                 } catch (IOException | NoSuchAlgorithmException e) {
                     e.printStackTrace();
                 }
@@ -63,9 +64,9 @@ public class LoginActivity extends AppCompatActivity {
                     setResult(2);
                     startActivity(i);
                     finish();
-                }if(statusCode == 404){
+                }else if(statusCode == 404){
                     ServerConnector.showAlert("User not found. Try again.", context);
-                }if(statusCode == 511){
+                }else if(statusCode == 511){
                     ServerConnector.showAlert("Session has expired.", context);
                 }
             }
