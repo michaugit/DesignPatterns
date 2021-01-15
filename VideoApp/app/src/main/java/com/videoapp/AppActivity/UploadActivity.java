@@ -75,7 +75,7 @@ public class UploadActivity extends Activity {
                 if (statusResponse == 200){
                     new UploadFileToServer().execute();
                 }else{
-                    ServerConnector.showAlert("Something went wrong. You can't upload video.", getApplicationContext());
+                    showAlert("Something went wrong. You can't upload video.");
                 }
 
             }
