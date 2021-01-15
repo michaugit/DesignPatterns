@@ -116,7 +116,7 @@ public class UploadActivity extends Activity {
 
                 File sourceFile = new File(filePath);
                 entity.addPart("image", new FileBody(sourceFile));
-                entity.addPart("email", new StringBody("abc@gmail.com"));
+                //entity.addPart("email", new StringBody("abc@gmail.com"));
 
                 totalSize = entity.getContentLength();
                 httppost.setEntity(entity);

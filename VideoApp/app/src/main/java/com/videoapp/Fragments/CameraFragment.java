@@ -180,7 +180,11 @@ public class CameraFragment extends Fragment{
         File mediaFile;
         if (type == MEDIA_TYPE_VIDEO) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator
+<<<<<<< HEAD
                     + "michal_" + timeStamp + ".mp4");
+=======
+                    + ServerConnector.getUserName() + "_" + timeStamp + ".mp4");
+>>>>>>> f493cc709aea496c6c7ed8aeda8905f5157f10a1
         } else {
             return null;
         }

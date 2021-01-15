@@ -20,6 +20,10 @@ import com.videoapp.ServerConnector;
 import com.videoapp.Upload.Config;
 import com.videoapp.Video;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class StoryFragment extends Fragment implements StoryAdapter.ListItemClickListener  {
@@ -55,22 +59,37 @@ public class StoryFragment extends Fragment implements StoryAdapter.ListItemClic
     }
 
     private void playVideo(Video video){
-        String uri = new String(Config.DEFAULT_MOVIE_URL);
-        Intent mpdIntent = new Intent(getContext(), PlayerActivity.class)
-                .setData(Uri.parse(uri));
-        startActivity(mpdIntent);
+        String uri = null;
+        uri = ServerConnector.playVideo_URL(video.name);
 
-//        if (toast != null) {
-//            toast.cancel();
-//        }
-//        String message = "On Click play on " + video.name;
-//        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+        if(uri != null){
+            Intent mpdIntent = new Intent(getContext(),PlayerActivity.class)
+                    .setData(Uri.parse(uri));
+            startActivity(mpdIntent);
+        }
+        else{
+            ServerConnector.showAlert("Something went wrong. You cannot watch this video.", this.getContext());
+        }
     }
 
     public ArrayList<Video> fetchMoviesFromServerSimulator(){
-        //JSONObject jsonResponse = ServerConnector.getList("story-videos");
-        //TODO get from json
         ArrayList<Video> dataList =  new ArrayList<>();
+        //TODO get from json
+//        JSONObject jsonResponse = ServerConnector.getList("story-videos");
+//        JSONArray arr = null;
+//        try {
+//            arr = jsonResponse.getJSONArray("videonames");
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        for (int i = 0; i < arr.length(); i++){
+//            try {
+//                dataList.add(new Video(arr.getJSONObject(i).getString("videoname")));
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
+
         dataList.add(new Video("STORY Film nr 1"));
         dataList.add(new Video("STORY Film nr 2"));
         dataList.add(new Video("STORY Film nr 3"));
