@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.videoapp.ServerConnector;
 import com.videoapp.Upload.AndroidMultiPartEntity;
 import com.videoapp.Upload.Config;
 import com.videoapp.Upload.AndroidMultiPartEntity.ProgressListener;
@@ -37,6 +38,7 @@ public class UploadActivity extends Activity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private ProgressBar progressBar;
     private String filePath = null;
+    private String fileName = null;
     private TextView txtPercentage;
     private VideoView vidPreview;
     private Button btnUpload;
@@ -54,6 +56,8 @@ public class UploadActivity extends Activity {
 
         Intent i = getIntent();
         filePath = i.getStringExtra("filePath");
+        File f = new File(filePath);
+        fileName = f.getName();
 
         if (filePath != null) {
             previewMedia();
@@ -66,7 +70,14 @@ public class UploadActivity extends Activity {
 
             @Override
             public void onClick(View v) {
-                new UploadFileToServer().execute();
+                int statusResponse = ServerConnector.upload(fileName);
+
+                if (statusResponse == 200){
+                    new UploadFileToServer().execute();
+                }else{
+                    ServerConnector.showAlert("Something went wrong. You can't upload video.", getApplicationContext());
+                }
+
             }
         });
 
@@ -125,6 +136,7 @@ public class UploadActivity extends Activity {
 
                 int statusCode = response.getStatusLine().getStatusCode();
                 if (statusCode == 200) {
+                    ServerConnector.uploadFinished(fileName);
                     responseString = EntityUtils.toString(r_entity);
                 } else {
                     responseString = "Error occurred! Http Status Code: "

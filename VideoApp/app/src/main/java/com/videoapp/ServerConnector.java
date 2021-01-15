@@ -78,11 +78,23 @@ public class ServerConnector{
         return statusCode;
     }
 
+    public static int upload(String videoName){
+        int statusCode;
+
+        statusCode = doSimpleGet(Config.UPLOAD_VIDEO_URL + "?videoname=" + videoName);
+        return statusCode;
+    }
+
     public static int changeVisibility_URL(String videoName, String changeType){
         int statusCode;
 
         statusCode = doSimpleGet(Config.VIDEO_VISIBILITY_URL + "?change-visibility=" + videoName + "&change-type=" + changeType);
         return statusCode;
+    }
+
+    public static void uploadFinished(String videoname){
+
+        doSimpleGet(Config.UPLOAD_FINISHED + videoname);
     }
 
     public static JSONObject getList(String type) {
@@ -144,6 +156,7 @@ public class ServerConnector{
         }catch(Exception e) {
             return null;
         }
+
     }
 
     public static void showAlert(String message, Context context) {
