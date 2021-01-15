@@ -46,16 +46,11 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if(editUsername.getText().toString().equals("dev") && editPassword.getText().toString().equals("dev")){
-//                    setResult(2);
-//                    startActivity(i);
-//                    finish();
-//                }
 
                 int statusCode = 444;
                 try {
                     statusCode = ServerConnector.login_URL(editUsername.getText().toString(), editPassword.getText().toString());
-                } catch (IOException | NoSuchAlgorithmException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
 

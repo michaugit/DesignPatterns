@@ -24,6 +24,7 @@ import com.videoapp.Upload.Config;
 import com.videoapp.Video;
 import com.videoapp.R;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -37,7 +38,6 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
 
     private UserAdapter adapter;
     private RecyclerView recycler;
-    //private Toast toast;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -87,22 +87,12 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.visibility:
-                        try {
-                            changeVisibility(videoClicked);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        return true;
+                        changeVisibility(videoClicked);
+
 
                     case R.id.deletion:
+                        deleteVideo(videoClicked);
 
-                        try {
-                            deleteVideo(videoClicked);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                        return true;
                 }
 
                 return true;
@@ -112,27 +102,21 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
     }
 
     public void playVideo(Video video){
-        String uri = new String(Config.DEFAULT_MOVIE_URL);
+        String uri = null;
+        uri = ServerConnector.playVideo_URL(video.name);
 
-        Intent mpdIntent = new Intent(getContext(),PlayerActivity.class)
-                .setData(Uri.parse(uri));
-        startActivity(mpdIntent);
-////        if (toast != null) {
-////            toast.cancel();
-////        }
-//        int statusCode = ServerConnector.playVideo(video.name);
-//        if(statusCode == 200){
-//            //TODO implement hls streaming!
-//        }if(statusCode == 404){
-//            ServerConnector.showAlert("Video not found", this.getContext());
-//        }if(statusCode == 511){
-//            ServerConnector.showAlert("Session has expired.", this.getContext());
-//        }
-////        String message = "On Click play on " + video.name;
-////        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+        if(uri != null){
+            Intent mpdIntent = new Intent(getContext(),PlayerActivity.class)
+                    .setData(Uri.parse(uri));
+            startActivity(mpdIntent);
+        }
+        else{
+            ServerConnector.showAlert("Something went wrong. You cannot watch this video.", this.getContext());
+        }
+
     }
 
-    public void deleteVideo(Video video) throws IOException {
+    public void deleteVideo(Video video){
         int statusCode = ServerConnector.deleteVideo_URL(video.name);
         if(ServerConnector.deleteVideo_URL(video.name) == 200){
             adapter.deleteItem(video);
@@ -145,7 +129,7 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
 
     }
 
-    public void changeVisibility(Video video) throws IOException {
+    public void changeVisibility(Video video){
         int statusCode = ServerConnector.changeVisibility_URL(video.name, video.checkType());
         if(statusCode == 200){
             video.visible = !video.visible;
@@ -161,9 +145,23 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
     }
 
     public ArrayList<Video> fetchMoviesFromServerSimulator(){
-        //JSONObject jsonResponse = ServerConnector.getList("user-videos");
-        //TODO get from json
         ArrayList<Video> dataList =  new ArrayList<>();
+        //TODO get from json
+//        JSONObject jsonResponse = ServerConnector.getList("user-videos");
+//        JSONArray arr = null;
+//        try {
+//            arr = jsonResponse.getJSONArray("videonames");
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        for (int i = 0; i < arr.length(); i++){
+//            try {
+//                dataList.add(new Video(arr.getJSONObject(i).getString("videoname")));
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
+
         dataList.add(new Video("Filmnr1"));
         dataList.add(new Video("Film nr 2"));
         dataList.add(new Video("Film nr 3"));
