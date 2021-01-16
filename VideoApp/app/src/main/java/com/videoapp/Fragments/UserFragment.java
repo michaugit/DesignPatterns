@@ -107,7 +107,6 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
     public void playVideo(Video video){
         String uri = null;
         uri = ServerConnector.playVideo_URL(video.videoName);
-        System.out.println(uri);
 
         if(uri != null){
             Intent mpdIntent = new Intent(getContext(),PlayerActivity.class)
@@ -152,27 +151,28 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
         ArrayList<Video> dataList =  new ArrayList<>();
         JSONObject jsonObj = null;
         JSONArray jsonResponse = ServerConnector.getList("user-videos");
-
-        for (int i=0;i< jsonResponse.length();i++){
-            try {
-                jsonObj = (JSONObject) jsonResponse.get(i);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            try {
-                String videoUserName = jsonObj.get("username").toString();
-                String videoName = jsonObj.get("videoname").toString();
-                Video.Visibility videoVisibility;
-
-                if(jsonObj.get("visibility").equals("public")){
-                    videoVisibility = Video.Visibility.PUBLIC;
-                }else{
-                    videoVisibility = Video.Visibility.PRIVATE;
+        if(jsonResponse != null) {
+            for (int i = 0; i < jsonResponse.length(); i++) {
+                try {
+                    jsonObj = (JSONObject) jsonResponse.get(i);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+                try {
+                    String videoUserName = jsonObj.get("username").toString();
+                    String videoName = jsonObj.get("videoname").toString();
+                    Video.Visibility videoVisibility;
 
-                dataList.add(new Video(videoUserName, videoName, videoVisibility));
-            } catch (JSONException e) {
-                e.printStackTrace();
+                    if (jsonObj.get("visibility").equals("public")) {
+                        videoVisibility = Video.Visibility.PUBLIC;
+                    } else {
+                        videoVisibility = Video.Visibility.PRIVATE;
+                    }
+
+                    dataList.add(new Video(videoUserName, videoName, videoVisibility));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
 

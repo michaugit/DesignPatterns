@@ -68,12 +68,11 @@ public class ServerConnector{
         String uri = null;
         JSONObject uriJSON = doJSONObjectGet(Config.STREAM_VIDEO_URL + videoName);
         try {
-
             uri = "http://" + uriJSON.getString("uri");
+            System.out.println("====================================================> URI: " + uri);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         return uri;
     }
 

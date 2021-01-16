@@ -60,12 +60,6 @@ public class PlayerActivity extends Activity implements
 
     private static final String TAG = "PlayerActivity";
 
-    private static final CookieManager defaultCookieManager;
-
-    static {
-        defaultCookieManager = new CookieManager();
-        defaultCookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ORIGINAL_SERVER);
-    }
 
     private MediaController mediaController;
     private View debugRootView;
@@ -118,11 +112,6 @@ public class PlayerActivity extends Activity implements
 
         mediaController = new KeyCompatibleMediaController(this);
         mediaController.setAnchorView(root);
-
-        CookieHandler currentHandler = CookieHandler.getDefault();
-        if (currentHandler != defaultCookieManager) {
-            CookieHandler.setDefault(defaultCookieManager);
-        }
 
         audioCapabilitiesReceiver = new AudioCapabilitiesReceiver(this, this);
         audioCapabilitiesReceiver.register();

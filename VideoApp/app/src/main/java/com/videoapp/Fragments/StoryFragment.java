@@ -85,17 +85,18 @@ public class StoryFragment extends Fragment implements StoryAdapter.ListItemClic
         JSONObject jsonObj = null;
 //        TODO all-videos
         JSONArray jsonResponse = ServerConnector.getList("story-videos");
-
-        for (int i=0;i< jsonResponse.length();i++){
-            try {
-                jsonObj = (JSONObject) jsonResponse.get(i);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            try {
-                dataList.add(new Video(jsonObj.get("username").toString(), jsonObj.get("videoname").toString()));
-            } catch (JSONException e) {
-                e.printStackTrace();
+        if(jsonResponse != null) {
+            for (int i = 0; i < jsonResponse.length(); i++) {
+                try {
+                    jsonObj = (JSONObject) jsonResponse.get(i);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    dataList.add(new Video(jsonObj.get("username").toString(), jsonObj.get("videoname").toString()));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
