@@ -36,7 +36,7 @@
         android:id="@+id/video_descryption"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/chat_time"
+        android:text="@string/video_description"
         android:textColor="@color/colorGrey"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"

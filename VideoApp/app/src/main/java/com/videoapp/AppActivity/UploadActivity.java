@@ -31,8 +31,10 @@ import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+
 import java.io.File;
 import java.io.IOException;
+
 import com.videoapp.R;
 
 
@@ -75,9 +77,9 @@ public class UploadActivity extends Activity {
                 int statusResponse = ServerConnector.upload(fileName);
                 btnUpload.setEnabled(false);
                 btnUpload.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
-                if (statusResponse == 200){
+                if (statusResponse == 200) {
                     new UploadFileToServer().execute();
-                }else{
+                } else {
                     btnUpload.setEnabled(true);
                     showAlert("Something went wrong. You can't upload video.");
                 }
@@ -88,9 +90,9 @@ public class UploadActivity extends Activity {
     }
 
     private void previewMedia() {
-            vidPreview.setVisibility(View.VISIBLE);
-            vidPreview.setVideoPath(filePath);
-            vidPreview.start();
+        vidPreview.setVisibility(View.VISIBLE);
+        vidPreview.setVideoPath(filePath);
+        vidPreview.start();
     }
 
     private class UploadFileToServer extends AsyncTask<Void, Integer, String> {
@@ -171,7 +173,8 @@ public class UploadActivity extends Activity {
         builder.setMessage(message).setTitle("Response from Server")
                 .setCancelable(false)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) { }
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
                 });
         AlertDialog alert = builder.create();
         alert.show();

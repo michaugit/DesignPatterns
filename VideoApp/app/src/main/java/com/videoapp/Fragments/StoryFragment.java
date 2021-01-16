@@ -3,6 +3,7 @@ package com.videoapp.Fragments;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,7 +25,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class StoryFragment extends Fragment implements StoryAdapter.ListItemClickListener  {
+public class StoryFragment extends Fragment implements StoryAdapter.ListItemClickListener {
 
     public static StoryFragment newInstance() {
         return new StoryFragment();
@@ -32,7 +33,6 @@ public class StoryFragment extends Fragment implements StoryAdapter.ListItemClic
 
     private StoryAdapter adapter;
     private RecyclerView recycler;
-
 
 
     @Override
@@ -59,33 +59,31 @@ public class StoryFragment extends Fragment implements StoryAdapter.ListItemClic
     }
 
 
-
     @Override
     public void onListItemClick(int clickedItemIndex) {
         Video clickedVideo = adapter.getVideo(clickedItemIndex);
         playVideo(clickedVideo);
     }
 
-    private void playVideo(Video video){
+    private void playVideo(Video video) {
         String uri = null;
         uri = ServerConnector.playVideo_URL(video.videoName);
 
-        if(uri != null){
-            Intent mpdIntent = new Intent(getContext(),PlayerActivity.class)
+        if (uri != null) {
+            Intent mpdIntent = new Intent(getContext(), PlayerActivity.class)
                     .setData(Uri.parse(uri));
             startActivity(mpdIntent);
-        }
-        else{
+        } else {
             ServerConnector.showAlert("Something went wrong. You cannot watch this video.", this.getContext());
         }
     }
 
-    public ArrayList<Video> fetchMoviesFromServer(){
-        ArrayList<Video> dataList =  new ArrayList<>();
+    public ArrayList<Video> fetchMoviesFromServer() {
+        ArrayList<Video> dataList = new ArrayList<>();
         JSONObject jsonObj = null;
 //        TODO all-videos
         JSONArray jsonResponse = ServerConnector.getList("story-videos");
-        if(jsonResponse != null) {
+        if (jsonResponse != null) {
             for (int i = 0; i < jsonResponse.length(); i++) {
                 try {
                     jsonObj = (JSONObject) jsonResponse.get(i);
@@ -100,6 +98,6 @@ public class StoryFragment extends Fragment implements StoryAdapter.ListItemClic
             }
         }
 
-        return  dataList;
+        return dataList;
     }
 }

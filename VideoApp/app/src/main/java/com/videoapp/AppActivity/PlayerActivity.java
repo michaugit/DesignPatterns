@@ -49,6 +49,7 @@ import com.google.android.exoplayer.util.Util;
 import com.videoapp.player.DemoPlayer;
 import com.videoapp.player.HlsRendererBuilder;
 import com.videoapp.R;
+
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;

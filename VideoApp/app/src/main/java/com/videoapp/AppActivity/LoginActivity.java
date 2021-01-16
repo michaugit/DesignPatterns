@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.StrictMode;
@@ -34,8 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
-        if (SDK_INT > 8)
-        {
+        if (SDK_INT > 8) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                     .permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -54,17 +54,17 @@ public class LoginActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                if(statusCode == 200){
+                if (statusCode == 200) {
                     setResult(2);
                     startActivity(i);
                     finish();
-                }else if(statusCode == 400) {
+                } else if (statusCode == 400) {
                     ServerConnector.showAlert("Username or password field cannot be empty!", context);
-                }else if(statusCode == 404){
+                } else if (statusCode == 404) {
                     ServerConnector.showAlert("User not found. Try again.", context);
-                }else if(statusCode == 444){
+                } else if (statusCode == 444) {
                     ServerConnector.showAlert("Something went wrong while connecting to server.", context);
-                }else if(statusCode == 511){
+                } else if (statusCode == 511) {
                     ServerConnector.showAlert("Session has expired.", context);
                 }
             }
@@ -113,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    private void checkColorEditText(){
+    private void checkColorEditText() {
         if (!TextUtils.isEmpty(editUsername.getText().toString()) && !TextUtils.isEmpty(editPassword.getText().toString())) {
             loginButton.setBackground(getResources().getDrawable(R.drawable.rounded_green_button));
         } else {

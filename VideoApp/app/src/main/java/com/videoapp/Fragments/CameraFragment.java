@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +57,7 @@ import java.util.List;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
-public class CameraFragment extends Fragment{
+public class CameraFragment extends Fragment {
 
     private static final String TAG = com.videoapp.AppActivity.MainActivity.class.getSimpleName();
     private static final int CAMERA_PERMISSION_CODE = 100;
@@ -82,12 +83,12 @@ public class CameraFragment extends Fragment{
 
             @Override
             public void onClick(View v) {
-                boolean  write_perm = checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                boolean write_perm = checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         STORAGE_PERMISSION_CODE);
-                boolean  camera_perm = checkPermission(Manifest.permission.CAMERA,
+                boolean camera_perm = checkPermission(Manifest.permission.CAMERA,
                         CAMERA_PERMISSION_CODE);
 
-                if(camera_perm && write_perm){
+                if (camera_perm && write_perm) {
                     recordVideo();
                 }
             }
@@ -104,7 +105,7 @@ public class CameraFragment extends Fragment{
     }
 
     private boolean isDeviceSupportCamera() {
-        if(getContext().getPackageManager().hasSystemFeature(
+        if (getContext().getPackageManager().hasSystemFeature(
                 PackageManager.FEATURE_CAMERA)) {
             return true;
         } else {
@@ -153,7 +154,7 @@ public class CameraFragment extends Fragment{
         }
     }
 
-    private void launchUploadActivity(){
+    private void launchUploadActivity() {
         Intent i = new Intent(getContext(), UploadActivity.class);
         i.putExtra("filePath", fileUriPath);
         getActivity().startActivity(i);
@@ -190,15 +191,13 @@ public class CameraFragment extends Fragment{
     }
 
 
-    public boolean checkPermission(String permission, int requestCode)
-    {
+    public boolean checkPermission(String permission, int requestCode) {
         if (ContextCompat.checkSelfPermission(getContext(), permission)
                 == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(getActivity(),
-                    new String[] { permission },
+                    new String[]{permission},
                     requestCode);
-        }
-        else {
+        } else {
             return true;
         }
         return false;
@@ -207,8 +206,7 @@ public class CameraFragment extends Fragment{
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
-                                           @NonNull int[] grantResults)
-    {
+                                           @NonNull int[] grantResults) {
         super
                 .onRequestPermissionsResult(requestCode,
                         permissions,
@@ -221,23 +219,20 @@ public class CameraFragment extends Fragment{
                         "Camera Permission Granted",
                         Toast.LENGTH_SHORT)
                         .show();
-            }
-            else {
+            } else {
                 Toast.makeText(getContext(),
                         "Camera Permission Denied",
                         Toast.LENGTH_SHORT)
                         .show();
             }
-        }
-        else if (requestCode == STORAGE_PERMISSION_CODE) {
+        } else if (requestCode == STORAGE_PERMISSION_CODE) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(getContext(),
                         "Storage Permission Granted",
                         Toast.LENGTH_SHORT)
                         .show();
-            }
-            else {
+            } else {
                 Toast.makeText(getContext(),
                         "Storage Permission Denied",
                         Toast.LENGTH_SHORT)

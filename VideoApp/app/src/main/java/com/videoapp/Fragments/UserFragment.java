@@ -10,6 +10,7 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -69,20 +70,20 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
 
     @Override
     public void onListItemLongClick(int clickedItemIndex, View anchor) {
-        Video videoLongClicked= adapter.getVideo(clickedItemIndex);
+        Video videoLongClicked = adapter.getVideo(clickedItemIndex);
         openPopupMenu(anchor, videoLongClicked);
     }
 
     @SuppressLint("ResourceType")
-    public void openPopupMenu(View anchor, Video videoClicked){
+    public void openPopupMenu(View anchor, Video videoClicked) {
 
         PopupMenu pm = new PopupMenu(getContext(), anchor);
         pm.getMenuInflater().inflate(R.layout.popup_menu, pm.getMenu());
 
-        MenuItem visibility= pm.getMenu().findItem(R.id.visibility);
-        if(videoClicked.getVisibility() == Video.Visibility.PUBLIC){
+        MenuItem visibility = pm.getMenu().findItem(R.id.visibility);
+        if (videoClicked.getVisibility() == Video.Visibility.PUBLIC) {
             visibility.setTitle("Make Video Invisible");
-        } else{
+        } else {
             visibility.setTitle("Make Video Visible");
         }
 
@@ -104,54 +105,54 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
         pm.show();
     }
 
-    public void playVideo(Video video){
+    public void playVideo(Video video) {
         String uri = null;
         uri = ServerConnector.playVideo_URL(video.videoName);
 
-        if(uri != null){
-            Intent mpdIntent = new Intent(getContext(),PlayerActivity.class)
+        if (uri != null) {
+            Intent mpdIntent = new Intent(getContext(), PlayerActivity.class)
                     .setData(Uri.parse(uri));
             startActivity(mpdIntent);
-        }
-        else{
+        } else {
             ServerConnector.showAlert("Something went wrong. You cannot watch this video.", this.getContext());
         }
 
     }
 
-    public void deleteVideo(Video video){
+    public void deleteVideo(Video video) {
         int statusCode = ServerConnector.deleteVideo_URL(video.videoName);
-        if(statusCode == 200){
+        if (statusCode == 200) {
             adapter.deleteItem(video);
             ServerConnector.showAlert("Video has been deleted.", this.getContext());
-        }else if(statusCode == 404){
-                ServerConnector.showAlert("Video not found.", this.getContext());
-        }else if(statusCode == 511){
-            ServerConnector.showAlert("Session has expired.", this.getContext());
-        }
-
-    }
-
-    public void changeVisibility(Video video){
-        int statusCode = ServerConnector.changeVisibility_URL(video.videoName, video.getTypeChanged());
-        if(statusCode == 200){
-            video.changeVisibility();
-            ServerConnector.showAlert("Video status changed to "+video.checkType()+".", this.getContext());
-        }else if(statusCode == 404){
+        } else if (statusCode == 404) {
             ServerConnector.showAlert("Video not found.", this.getContext());
-        }else if(statusCode == 406){
-            ServerConnector.showAlert("Not acceptable. Status is already "+video.checkType()+".", this.getContext());
-        }else if(statusCode == 511){
+        } else if (statusCode == 511) {
             ServerConnector.showAlert("Session has expired.", this.getContext());
         }
 
     }
 
-    public ArrayList<Video> fetchMoviesFromServer(){
-        ArrayList<Video> dataList =  new ArrayList<>();
+    public void changeVisibility(Video video) {
+        int statusCode = ServerConnector.changeVisibility_URL(video.videoName, video.getTypeChanged());
+        if (statusCode == 200) {
+            video.changeVisibility();
+            adapter.notifyDataSetChanged();
+            ServerConnector.showAlert("Video status changed to " + video.checkType() + ".", this.getContext());
+        } else if (statusCode == 404) {
+            ServerConnector.showAlert("Video not found.", this.getContext());
+        } else if (statusCode == 406) {
+            ServerConnector.showAlert("Not acceptable. Status is already " + video.checkType() + ".", this.getContext());
+        } else if (statusCode == 511) {
+            ServerConnector.showAlert("Session has expired.", this.getContext());
+        }
+
+    }
+
+    public ArrayList<Video> fetchMoviesFromServer() {
+        ArrayList<Video> dataList = new ArrayList<>();
         JSONObject jsonObj = null;
         JSONArray jsonResponse = ServerConnector.getList("user-videos");
-        if(jsonResponse != null) {
+        if (jsonResponse != null) {
             for (int i = 0; i < jsonResponse.length(); i++) {
                 try {
                     jsonObj = (JSONObject) jsonResponse.get(i);
@@ -177,6 +178,6 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
         }
 
 
-        return  dataList;
+        return dataList;
     }
 }

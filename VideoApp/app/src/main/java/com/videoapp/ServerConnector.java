@@ -25,7 +25,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLOutput;
 
-public class ServerConnector{
+public class ServerConnector {
 
     private static String staticUserName = null;
     private static CookieManager cookieManager = new CookieManager();
@@ -34,24 +34,24 @@ public class ServerConnector{
         CookieHandler.setDefault(cookieManager);
 
         userPass = generateHashPassword(userPass);
-        String urlParameters  = "username="+userName+"&userpass="+userPass;
-        byte[] postData       = urlParameters.getBytes( StandardCharsets.UTF_8 );
-        int    postDataLength = postData.length;
-        URL url            = new URL(Config.LOGIN_URL);
-        HttpURLConnection conn= (HttpURLConnection) url.openConnection();
-        conn.setDoOutput( true );
-        conn.setInstanceFollowRedirects( false );
-        conn.setRequestMethod("POST" );
+        String urlParameters = "username=" + userName + "&userpass=" + userPass;
+        byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
+        int postDataLength = postData.length;
+        URL url = new URL(Config.LOGIN_URL);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setDoOutput(true);
+        conn.setInstanceFollowRedirects(false);
+        conn.setRequestMethod("POST");
         conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         conn.setRequestProperty("charset", "utf-8");
-        conn.setRequestProperty("Content-Length", Integer.toString( postDataLength));
+        conn.setRequestProperty("Content-Length", Integer.toString(postDataLength));
         conn.setUseCaches(false);
 
-        try( DataOutputStream wr = new DataOutputStream( conn.getOutputStream())) {
-            wr.write( postData );
+        try (DataOutputStream wr = new DataOutputStream(conn.getOutputStream())) {
+            wr.write(postData);
         }
         int responseCode = conn.getResponseCode();
-        if (responseCode == 200){
+        if (responseCode == 200) {
             staticUserName = userName;
         }
         conn.disconnect();
@@ -59,45 +59,44 @@ public class ServerConnector{
         return responseCode;
     }
 
-    public static String getUserName (){
+    public static String getUserName() {
         return staticUserName;
     }
 
-    public static String playVideo_URL(String videoName){
+    public static String playVideo_URL(String videoName) {
 
         String uri = null;
         JSONObject uriJSON = doJSONObjectGet(Config.STREAM_VIDEO_URL + videoName);
         try {
-            uri = "http://" + uriJSON.getString("uri");
-            System.out.println("====================================================> URI: " + uri);
+            uri = uriJSON.getString("url");
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return uri;
     }
 
-    public static int deleteVideo_URL(String videoName){
+    public static int deleteVideo_URL(String videoName) {
         int statusCode;
 
         statusCode = doSimpleGet(Config.DELETE_VIDEO_URL + "?videoname=" + videoName);
         return statusCode;
     }
 
-    public static int upload(String videoName){
+    public static int upload(String videoName) {
         int statusCode;
 
         statusCode = doSimpleGet(Config.UPLOAD_VIDEO_URL + "?videoname=" + videoName);
         return statusCode;
     }
 
-    public static int changeVisibility_URL(String videoName, String changeType){
+    public static int changeVisibility_URL(String videoName, String changeType) {
         int statusCode;
 
-        statusCode = doSimpleGet(Config.VIDEO_VISIBILITY_URL  + videoName + "&change-type=" + changeType);
+        statusCode = doSimpleGet(Config.VIDEO_VISIBILITY_URL + videoName + "&change-type=" + changeType);
         return statusCode;
     }
 
-    public static void uploadFinished(String videoname){
+    public static void uploadFinished(String videoname) {
 
         doSimpleGet(Config.UPLOAD_FINISHED + videoname);
     }
@@ -135,7 +134,7 @@ public class ServerConnector{
             } else {
                 return null;
             }
-        }catch(Exception e) {
+        } catch (Exception e) {
             return null;
         }
 
@@ -167,29 +166,29 @@ public class ServerConnector{
             } else {
                 return null;
             }
-        }catch(Exception e) {
+        } catch (Exception e) {
             return null;
         }
 
     }
 
-    private static Integer doSimpleGet(String urlAddress){
+    private static Integer doSimpleGet(String urlAddress) {
 
-        try{
-        URL url = new URL(urlAddress);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setDoOutput(true);
-        connection.setInstanceFollowRedirects(false);
-        connection.setRequestMethod("GET");
-        connection.setRequestProperty("Content-Type", "text/plain");
-        connection.setRequestProperty("charset", "utf-8");
-        connection.connect();
+        try {
+            URL url = new URL(urlAddress);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoOutput(true);
+            connection.setInstanceFollowRedirects(false);
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Content-Type", "text/plain");
+            connection.setRequestProperty("charset", "utf-8");
+            connection.connect();
 
-        int statusCode = connection.getResponseCode();
-        connection.disconnect();
-        return statusCode;
+            int statusCode = connection.getResponseCode();
+            connection.disconnect();
+            return statusCode;
 
-        }catch(Exception e) {
+        } catch (Exception e) {
             return null;
         }
 
@@ -208,7 +207,7 @@ public class ServerConnector{
         alert.show();
     }
 
-    private static String generateHashPassword(String passwordToHash){
+    private static String generateHashPassword(String passwordToHash) {
         String generatedPassword = null;
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -216,14 +215,11 @@ public class ServerConnector{
             byte[] bytes = md.digest();
 
             StringBuilder sb = new StringBuilder();
-            for(int i=0; i< bytes.length ;i++)
-            {
+            for (int i = 0; i < bytes.length; i++) {
                 sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
             }
             generatedPassword = sb.toString();
-        }
-        catch (NoSuchAlgorithmException e)
-        {
+        } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
 

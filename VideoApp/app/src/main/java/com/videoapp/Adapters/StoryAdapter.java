@@ -13,12 +13,12 @@ import com.videoapp.Video;
 import java.util.ArrayList;
 
 
-public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ChatViewHolder>{
+public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ChatViewHolder> {
 
     private ArrayList<Video> dataList;
     final private ListItemClickListener mOnClickListener;
 
-    public StoryAdapter(ArrayList<Video> dataList, ListItemClickListener clickListener){
+    public StoryAdapter(ArrayList<Video> dataList, ListItemClickListener clickListener) {
         this.dataList = dataList;
         mOnClickListener = clickListener;
     }
@@ -29,7 +29,7 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ChatViewHold
         notifyDataSetChanged();
     }
 
-    public Video getVideo(int positionIndex){
+    public Video getVideo(int positionIndex) {
         return dataList.get(positionIndex);
     }
 
