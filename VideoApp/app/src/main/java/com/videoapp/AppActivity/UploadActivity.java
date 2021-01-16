@@ -15,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import androidx.core.content.ContextCompat;
+
 import com.videoapp.ServerConnector;
 import com.videoapp.Upload.AndroidMultiPartEntity;
 import com.videoapp.Upload.Config;
@@ -71,10 +73,12 @@ public class UploadActivity extends Activity {
             @Override
             public void onClick(View v) {
                 int statusResponse = ServerConnector.upload(fileName);
-
+                btnUpload.setEnabled(false);
+                btnUpload.setBackground(getResources().getDrawable(R.drawable.rounded_grey_button));
                 if (statusResponse == 200){
                     new UploadFileToServer().execute();
                 }else{
+                    btnUpload.setEnabled(true);
                     showAlert("Something went wrong. You can't upload video.");
                 }
 

@@ -68,8 +68,8 @@ public class ServerConnector{
         String uri = null;
         JSONObject uriJSON = doJSONObjectGet(Config.STREAM_VIDEO_URL + videoName);
         try {
-            System.out.println(uriJSON);
-            uri = uriJSON.getString("uri");
+
+            uri = "http://" + uriJSON.getString("uri");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -93,7 +93,7 @@ public class ServerConnector{
 
     public static int changeVisibility_URL(String videoName, String changeType){
         int statusCode;
-        System.out.println(Config.VIDEO_VISIBILITY_URL + videoName + "&change-type=" + changeType);
+
         statusCode = doSimpleGet(Config.VIDEO_VISIBILITY_URL  + videoName + "&change-type=" + changeType);
         return statusCode;
     }
@@ -129,7 +129,6 @@ public class ServerConnector{
             in.close();
 
             JSONArray jsonResponse = new JSONArray(response.toString());
-            System.out.println("XDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD x1" + jsonResponse);
             con.disconnect();
 
             if (responseCode == 200) {
@@ -228,7 +227,6 @@ public class ServerConnector{
         {
             e.printStackTrace();
         }
-        System.out.println(generatedPassword);
 
         return generatedPassword;
     }

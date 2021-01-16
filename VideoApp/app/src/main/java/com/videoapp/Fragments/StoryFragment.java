@@ -34,6 +34,7 @@ public class StoryFragment extends Fragment implements StoryAdapter.ListItemClic
     private RecyclerView recycler;
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,19 +44,21 @@ public class StoryFragment extends Fragment implements StoryAdapter.ListItemClic
         recycler = view.findViewById(R.id.storyRecycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recycler.setLayoutManager(layoutManager);
-        recycler.setHasFixedSize(true);
         adapter = new StoryAdapter(fetchMoviesFromServer(), this);
         recycler.setAdapter(adapter);
 
         return view;
     }
 
-    public void onUpdateView() {
-        if(adapter != null) {
-            System.out.println("XDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
             adapter.updateData(fetchMoviesFromServer());
         }
     }
+
+
 
     @Override
     public void onListItemClick(int clickedItemIndex) {

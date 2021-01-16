@@ -46,18 +46,20 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recycler.setLayoutManager(layoutManager);
         recycler.setHasFixedSize(true);
-
         adapter = new UserAdapter(fetchMoviesFromServer(), this);
         recycler.setAdapter(adapter);
 
         return view;
     }
 
-    public void onUpdateView() {
-        if(adapter != null) {
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
             adapter.updateData(fetchMoviesFromServer());
         }
     }
+
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
@@ -78,10 +80,9 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
         pm.getMenuInflater().inflate(R.layout.popup_menu, pm.getMenu());
 
         MenuItem visibility= pm.getMenu().findItem(R.id.visibility);
-        if(videoClicked.visible){
+        if(videoClicked.getVisibility() == Video.Visibility.PUBLIC){
             visibility.setTitle("Make Video Invisible");
-        }
-        else{
+        } else{
             visibility.setTitle("Make Video Visible");
         }
 
@@ -106,6 +107,7 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
     public void playVideo(Video video){
         String uri = null;
         uri = ServerConnector.playVideo_URL(video.videoName);
+        System.out.println(uri);
 
         if(uri != null){
             Intent mpdIntent = new Intent(getContext(),PlayerActivity.class)
@@ -132,17 +134,16 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
     }
 
     public void changeVisibility(Video video){
-        System.out.println("VISIBILITY: "+ video.visible + "getTypechaneg: " + video.getTypeChanged());
         int statusCode = ServerConnector.changeVisibility_URL(video.videoName, video.getTypeChanged());
         if(statusCode == 200){
             video.changeVisibility();
-            ServerConnector.showAlert("Video status changed to "+video.checkType(), this.getContext());
+            ServerConnector.showAlert("Video status changed to "+video.checkType()+".", this.getContext());
         }else if(statusCode == 404){
-            ServerConnector.showAlert("Video not found", this.getContext());
+            ServerConnector.showAlert("Video not found.", this.getContext());
         }else if(statusCode == 406){
-            ServerConnector.showAlert("Not acceptable. Status is already "+video.checkType(), this.getContext());
+            ServerConnector.showAlert("Not acceptable. Status is already "+video.checkType()+".", this.getContext());
         }else if(statusCode == 511){
-            ServerConnector.showAlert("Session has expired", this.getContext());
+            ServerConnector.showAlert("Session has expired.", this.getContext());
         }
 
     }
@@ -150,7 +151,6 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
     public ArrayList<Video> fetchMoviesFromServer(){
         ArrayList<Video> dataList =  new ArrayList<>();
         JSONObject jsonObj = null;
-        //        TODO all-videos
         JSONArray jsonResponse = ServerConnector.getList("user-videos");
 
         for (int i=0;i< jsonResponse.length();i++){
@@ -160,13 +160,22 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
                 e.printStackTrace();
             }
             try {
-                dataList.add(new Video(jsonObj.get("username").toString(), jsonObj.get("videoname").toString()));
+                String videoUserName = jsonObj.get("username").toString();
+                String videoName = jsonObj.get("videoname").toString();
+                Video.Visibility videoVisibility;
+
+                if(jsonObj.get("visibility").equals("public")){
+                    videoVisibility = Video.Visibility.PUBLIC;
+                }else{
+                    videoVisibility = Video.Visibility.PRIVATE;
+                }
+
+                dataList.add(new Video(videoUserName, videoName, videoVisibility));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
 
-        System.out.println(dataList);
 
         return  dataList;
     }

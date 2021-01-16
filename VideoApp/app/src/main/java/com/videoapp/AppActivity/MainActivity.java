@@ -47,11 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                if(position==0) {
-                    ((UserFragment) pagerAdapter.getItem(position)).onUpdateView();
-                }else if(position ==2){
-                    ((StoryFragment) pagerAdapter.getItem(position)).onUpdateView();
-                }
             }
 
             @Override
