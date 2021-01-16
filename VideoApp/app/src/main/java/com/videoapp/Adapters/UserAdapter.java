@@ -1,7 +1,9 @@
 package com.videoapp.Adapters;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +16,12 @@ import java.util.ArrayList;
 
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
-
+    private final Context context;
     private ArrayList<Video> dataList;
     final private ListItemClickListener mOnClickListener;
 
-    public UserAdapter(ArrayList<Video> dataList, ListItemClickListener clickListener) {
+    public UserAdapter(ArrayList<Video> dataList, ListItemClickListener clickListener, Context context) {
+        this.context = context;
         this.dataList = dataList;
         mOnClickListener = clickListener;
     }
@@ -53,9 +56,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         String nameOfVideo = dataList.get(position).videoName;
-        String visibilityOfVideo = "Tap to load, Drag to manage \t\t\t\t\t\t\t\t\t\t (" + dataList.get(position).getVisibility().toString() + ")";
         holder.videoName.setText(nameOfVideo);
-        holder.videoDescription.setText(visibilityOfVideo);
+        if (dataList.get(position).getVisibility() == Video.Visibility.PUBLIC){
+            holder.videoVisibility.setText("PUBLIC");
+            holder.videoVisibility.setTextColor(ContextCompat.getColor(context, R.color.greenAGH));
+        }else{
+                holder.videoVisibility.setText("PRIVATE");
+                holder.videoVisibility.setTextColor(ContextCompat.getColor(context, R.color.redAGH));
+        }
+
     }
 
     @Override
@@ -71,12 +80,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         TextView videoName;
-        TextView videoDescription;
+        TextView videoVisibility;
 
         public ViewHolder(View itemView) {
             super(itemView);
             videoName = itemView.findViewById(R.id.video_name);
-            videoDescription = itemView.findViewById(R.id.video_descryption);
+            videoVisibility = itemView.findViewById(R.id.video_visiblity);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
         }

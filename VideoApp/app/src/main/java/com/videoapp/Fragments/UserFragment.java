@@ -47,7 +47,7 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recycler.setLayoutManager(layoutManager);
         recycler.setHasFixedSize(true);
-        adapter = new UserAdapter(fetchMoviesFromServer(), this);
+        adapter = new UserAdapter(fetchMoviesFromServer(), this, getContext());
         recycler.setAdapter(adapter);
 
         return view;

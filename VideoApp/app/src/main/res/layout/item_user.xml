@@ -40,11 +40,24 @@
         android:textColor="@color/colorGrey"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/movie_miniature"
+        app:layout_constraintLeft_toRightOf="@id/movie_miniature"
         app:layout_constraintTop_toBottomOf="@id/video_name"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:layout_constraintVertical_bias="0.0" />
-    
+
+    <TextView
+        android:id="@+id/video_visiblity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="16dp"
+        android:text="PUBLIC"
+        android:textColor="@color/greenAGH"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/video_descryption"
+        app:layout_constraintTop_toBottomOf="@id/video_name"
+        app:layout_constraintVertical_bias="0.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

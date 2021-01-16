@@ -6,7 +6,7 @@
     <string name="username_loginactivity">USERNAME OR EMAIL</string>
     <string name="password_loginactivity">PASSWORD</string>
     <string name="forgot_password_loginactivity">Forgot your password?</string>
-    <string name="video_description">Tap to load, Drag to manage</string>
+    <string name="video_description">Tap to watch, Drag to manage</string>
     <string name="user_videos">USER VIDEOS</string>
     <string name="story_videos">STORY VIDEOS</string>
     <string name="record_video">RECORD VIDEO</string>
