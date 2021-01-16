@@ -2,7 +2,6 @@ package com.videoapp.Fragments;
 
 
 import android.annotation.SuppressLint;
-import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,19 +14,17 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.videoapp.Adapters.UserAdapter;
 import com.videoapp.AppActivity.PlayerActivity;
 import com.videoapp.ServerConnector;
-import com.videoapp.Upload.Config;
 import com.videoapp.Video;
 import com.videoapp.R;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class UserFragment extends Fragment implements UserAdapter.ListItemClickListener {
@@ -50,10 +47,16 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
         recycler.setLayoutManager(layoutManager);
         recycler.setHasFixedSize(true);
 
-        adapter = new UserAdapter(fetchMoviesFromServerSimulator(), this);
+        adapter = new UserAdapter(fetchMoviesFromServer(), this);
         recycler.setAdapter(adapter);
 
         return view;
+    }
+
+    public void onUpdateView() {
+        if(adapter != null) {
+            adapter.updateData(fetchMoviesFromServer());
+        }
     }
 
     @Override
@@ -88,13 +91,12 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
                 switch (item.getItemId()) {
                     case R.id.visibility:
                         changeVisibility(videoClicked);
-
+                        return true;
 
                     case R.id.deletion:
                         deleteVideo(videoClicked);
-
+                        return true;
                 }
-
                 return true;
             }
         });
@@ -103,7 +105,7 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
 
     public void playVideo(Video video){
         String uri = null;
-        uri = ServerConnector.playVideo_URL(video.name);
+        uri = ServerConnector.playVideo_URL(video.videoName);
 
         if(uri != null){
             Intent mpdIntent = new Intent(getContext(),PlayerActivity.class)
@@ -117,8 +119,8 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
     }
 
     public void deleteVideo(Video video){
-        int statusCode = ServerConnector.deleteVideo_URL(video.name);
-        if(ServerConnector.deleteVideo_URL(video.name) == 200){
+        int statusCode = ServerConnector.deleteVideo_URL(video.videoName);
+        if(statusCode == 200){
             adapter.deleteItem(video);
             ServerConnector.showAlert("Video has been deleted.", this.getContext());
         }else if(statusCode == 404){
@@ -130,9 +132,10 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
     }
 
     public void changeVisibility(Video video){
-        int statusCode = ServerConnector.changeVisibility_URL(video.name, video.checkType());
+        System.out.println("VISIBILITY: "+ video.visible + "getTypechaneg: " + video.getTypeChanged());
+        int statusCode = ServerConnector.changeVisibility_URL(video.videoName, video.getTypeChanged());
         if(statusCode == 200){
-            video.visible = !video.visible;
+            video.changeVisibility();
             ServerConnector.showAlert("Video status changed to "+video.checkType(), this.getContext());
         }else if(statusCode == 404){
             ServerConnector.showAlert("Video not found", this.getContext());
@@ -144,37 +147,24 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
 
     }
 
-    public ArrayList<Video> fetchMoviesFromServerSimulator(){
+    public ArrayList<Video> fetchMoviesFromServer(){
         ArrayList<Video> dataList =  new ArrayList<>();
-        //TODO get from json
-//        JSONObject jsonResponse = ServerConnector.getList("user-videos");
-//        JSONArray arr = null;
-//        try {
-//            arr = jsonResponse.getJSONArray("videonames");
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        for (int i = 0; i < arr.length(); i++){
-//            try {
-//                dataList.add(new Video(arr.getJSONObject(i).getString("videoname")));
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        JSONObject jsonObj = null;
+        //        TODO all-videos
+        JSONArray jsonResponse = ServerConnector.getList("all-videos");
 
-        dataList.add(new Video("Filmnr1"));
-        dataList.add(new Video("Film nr 2"));
-        dataList.add(new Video("Film nr 3"));
-        dataList.add(new Video("Film nr 4"));
-        dataList.add(new Video("Film nr 5"));
-        dataList.add(new Video("Film nr 6"));
-        dataList.add(new Video("Film nr 7"));
-        dataList.add(new Video("Film nr 8"));
-        dataList.add(new Video("Film nr 9"));
-        dataList.add(new Video("Film nr 10"));
-        dataList.add(new Video("Film nr 11"));
-        dataList.add(new Video("Film nr 12"));
-        dataList.add(new Video("Film nr 13"));
+        for (int i=0;i< jsonResponse.length();i++){
+            try {
+                jsonObj = (JSONObject) jsonResponse.get(i);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            try {
+                dataList.add(new Video(jsonObj.get("username").toString(), jsonObj.get("videoname").toString()));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
         return  dataList;
     }

@@ -15,6 +15,8 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.CookieHandler;
+import java.net.CookieManager;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -24,8 +26,11 @@ import java.security.NoSuchAlgorithmException;
 public class ServerConnector{
 
     private static String staticUserName = null;
+    private static CookieManager cookieManager = new CookieManager();
 
     public static int login_URL(String userName, String userPass) throws IOException {
+        CookieHandler.setDefault(cookieManager);
+
         userPass = generateHashPassword(userPass);
         String urlParameters  = "username="+userName+"&userpass="+userPass;
         byte[] postData       = urlParameters.getBytes( StandardCharsets.UTF_8 );
@@ -59,10 +64,9 @@ public class ServerConnector{
     public static String playVideo_URL(String videoName){
 
         String uri = null;
-        JSONObject uriJSON = doJSONGet(Config.STREAM_VIDEO_URL + videoName);
-        // TODO uri from JSON
-        // { "uri" : "http://link"}
+        JSONObject uriJSON = doJSONObjectGet(Config.STREAM_VIDEO_URL + videoName);
         try {
+            System.out.println(uriJSON);
             uri = uriJSON.getString("uri");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -87,8 +91,8 @@ public class ServerConnector{
 
     public static int changeVisibility_URL(String videoName, String changeType){
         int statusCode;
-
-        statusCode = doSimpleGet(Config.VIDEO_VISIBILITY_URL + "?change-visibility=" + videoName + "&change-type=" + changeType);
+        System.out.println(Config.VIDEO_VISIBILITY_URL + videoName + "&change-type=" + changeType);
+        statusCode = doSimpleGet(Config.VIDEO_VISIBILITY_URL  + videoName + "&change-type=" + changeType);
         return statusCode;
     }
 
@@ -97,14 +101,14 @@ public class ServerConnector{
         doSimpleGet(Config.UPLOAD_FINISHED + videoname);
     }
 
-    public static JSONObject getList(String type) {
-        JSONObject jsonResponse;
-        jsonResponse = doJSONGet(Config.BASE_URL + type);
+    public static JSONArray getList(String type) {
+        JSONArray jsonResponse;
+        jsonResponse = doJSONArrayGet(Config.BASE_URL + type);
 
         return jsonResponse;
     }
 
-    private static JSONObject doJSONGet(String urlAddress) {
+    private static JSONArray doJSONArrayGet(String urlAddress) {
 
         try {
             URL obj = new URL(urlAddress);
@@ -122,7 +126,38 @@ public class ServerConnector{
             }
             in.close();
 
-            System.out.println(response.toString());
+            JSONArray jsonResponse = new JSONArray(response.toString());
+            con.disconnect();
+
+            if (responseCode == 200) {
+                return jsonResponse;
+            } else {
+                return null;
+            }
+        }catch(Exception e) {
+            return null;
+        }
+
+    }
+
+    private static JSONObject doJSONObjectGet(String urlAddress) {
+
+        try {
+            URL obj = new URL(urlAddress);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            con.setRequestMethod("GET");
+            //con.setRequestProperty("User-Agent", "Mozilla/5.0");
+            int responseCode = con.getResponseCode();
+
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
             JSONObject jsonResponse = new JSONObject(response.toString());
             con.disconnect();
 

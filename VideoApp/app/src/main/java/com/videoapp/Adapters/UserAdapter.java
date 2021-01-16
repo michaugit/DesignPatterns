@@ -26,6 +26,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
         dataList.add(newItem);
         notifyDataSetChanged();
     }
+
+    public void updateData(ArrayList<Video> newData) {
+        dataList.clear();
+        dataList.addAll(newData);
+        notifyDataSetChanged();
+    }
+
     public void deleteItem(Video Item){
         dataList.remove(Item);
         notifyDataSetChanged();
@@ -44,7 +51,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String nameOfVideo = dataList.get(position).name;
+        String nameOfVideo = dataList.get(position).videoName;
         holder.videoName.setText(nameOfVideo);
     }
 

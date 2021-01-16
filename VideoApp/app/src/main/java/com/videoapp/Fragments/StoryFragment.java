@@ -10,14 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.videoapp.Adapters.StoryAdapter;
 import com.videoapp.Adapters.UserAdapter;
 import com.videoapp.AppActivity.PlayerActivity;
 import com.videoapp.R;
 import com.videoapp.ServerConnector;
-import com.videoapp.Upload.Config;
 import com.videoapp.Video;
 
 import org.json.JSONArray;
@@ -34,7 +32,7 @@ public class StoryFragment extends Fragment implements StoryAdapter.ListItemClic
 
     private StoryAdapter adapter;
     private RecyclerView recycler;
-   // private Toast toast;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,10 +44,17 @@ public class StoryFragment extends Fragment implements StoryAdapter.ListItemClic
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recycler.setLayoutManager(layoutManager);
         recycler.setHasFixedSize(true);
-        adapter = new StoryAdapter(fetchMoviesFromServerSimulator(), this);
+        adapter = new StoryAdapter(fetchMoviesFromServer(), this);
         recycler.setAdapter(adapter);
 
         return view;
+    }
+
+    public void onUpdateView() {
+        if(adapter != null) {
+            System.out.println("XDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+            adapter.updateData(fetchMoviesFromServer());
+        }
     }
 
     @Override
@@ -60,7 +65,7 @@ public class StoryFragment extends Fragment implements StoryAdapter.ListItemClic
 
     private void playVideo(Video video){
         String uri = null;
-        uri = ServerConnector.playVideo_URL(video.name);
+        uri = ServerConnector.playVideo_URL(video.videoName);
 
         if(uri != null){
             Intent mpdIntent = new Intent(getContext(),PlayerActivity.class)
@@ -72,37 +77,24 @@ public class StoryFragment extends Fragment implements StoryAdapter.ListItemClic
         }
     }
 
-    public ArrayList<Video> fetchMoviesFromServerSimulator(){
+    public ArrayList<Video> fetchMoviesFromServer(){
         ArrayList<Video> dataList =  new ArrayList<>();
-        //TODO get from json
-//        JSONObject jsonResponse = ServerConnector.getList("story-videos");
-//        JSONArray arr = null;
-//        try {
-//            arr = jsonResponse.getJSONArray("videonames");
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        for (int i = 0; i < arr.length(); i++){
-//            try {
-//                dataList.add(new Video(arr.getJSONObject(i).getString("videoname")));
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        JSONObject jsonObj = null;
+//        TODO all-videos
+        JSONArray jsonResponse = ServerConnector.getList("all-videos");
 
-        dataList.add(new Video("STORY Film nr 1"));
-        dataList.add(new Video("STORY Film nr 2"));
-        dataList.add(new Video("STORY Film nr 3"));
-        dataList.add(new Video("STORY Film nr 4"));
-        dataList.add(new Video("STORY Film nr 5"));
-        dataList.add(new Video("STORY Film nr 6"));
-        dataList.add(new Video("STORY Film nr 7"));
-        dataList.add(new Video("STORY Film nr 8"));
-        dataList.add(new Video("STORY Film nr 9"));
-        dataList.add(new Video("STORY Film nr 10"));
-        dataList.add(new Video("STORY Film nr 11"));
-        dataList.add(new Video("STORY Film nr 12"));
-        dataList.add(new Video("STORY Film nr 13"));
+        for (int i=0;i< jsonResponse.length();i++){
+            try {
+                jsonObj = (JSONObject) jsonResponse.get(i);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            try {
+                dataList.add(new Video(jsonObj.get("username").toString(), jsonObj.get("videoname").toString()));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
         return  dataList;
     }

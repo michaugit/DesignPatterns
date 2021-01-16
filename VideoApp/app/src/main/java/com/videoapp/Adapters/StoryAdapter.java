@@ -23,6 +23,12 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ChatViewHold
         mOnClickListener = clickListener;
     }
 
+    public void updateData(ArrayList<Video> newData) {
+        dataList.clear();
+        dataList.addAll(newData);
+        notifyDataSetChanged();
+    }
+
     public Video getVideo(int positionIndex){
         return dataList.get(positionIndex);
     }
@@ -36,7 +42,7 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ChatViewHold
 
     @Override
     public void onBindViewHolder(ChatViewHolder holder, int position) {
-        String nameOfVideo = dataList.get(position).name;
+        String nameOfVideo = dataList.get(position).videoName;
         holder.videoName.setText(nameOfVideo);
     }
 
