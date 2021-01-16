@@ -18,10 +18,12 @@ import java.io.InputStreamReader;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.HttpURLConnection;
+import java.net.SocketOption;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLOutput;
 
 public class ServerConnector{
 
@@ -127,6 +129,7 @@ public class ServerConnector{
             in.close();
 
             JSONArray jsonResponse = new JSONArray(response.toString());
+            System.out.println("XDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD x1" + jsonResponse);
             con.disconnect();
 
             if (responseCode == 200) {

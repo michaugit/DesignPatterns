@@ -151,7 +151,7 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
         ArrayList<Video> dataList =  new ArrayList<>();
         JSONObject jsonObj = null;
         //        TODO all-videos
-        JSONArray jsonResponse = ServerConnector.getList("all-videos");
+        JSONArray jsonResponse = ServerConnector.getList("user-videos");
 
         for (int i=0;i< jsonResponse.length();i++){
             try {
@@ -165,6 +165,8 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
                 e.printStackTrace();
             }
         }
+
+        System.out.println(dataList);
 
         return  dataList;
     }

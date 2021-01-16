@@ -18,12 +18,14 @@ import com.videoapp.R;
 
 public class MainActivity extends AppCompatActivity {
 
+    ViewPager viewPager = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
         FragmentPagerAdapter pagerAdapter = new MainPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
         viewPager.setCurrentItem(1);
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         final View background = findViewById(R.id.viewPagerBackground);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 if (position == 0) {
@@ -55,8 +58,15 @@ public class MainActivity extends AppCompatActivity {
             public void onPageScrollStateChanged(int state) {
 
             }
+
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        viewPager.getAdapter().notifyDataSetChanged();
     }
 
 
@@ -90,6 +100,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             return 3;
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
         }
 
 
