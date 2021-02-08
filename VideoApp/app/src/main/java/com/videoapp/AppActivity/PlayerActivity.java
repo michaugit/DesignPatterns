@@ -68,6 +68,7 @@ public class PlayerActivity extends Activity implements
     private AspectRatioFrameLayout videoFrame;
     private SurfaceView surfaceView;
 
+
     private DemoPlayer player;
     private boolean playerNeedsPrepare;
 

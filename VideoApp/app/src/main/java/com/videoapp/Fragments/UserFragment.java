@@ -170,7 +170,7 @@ public class UserFragment extends Fragment implements UserAdapter.ListItemClickL
                         videoVisibility = Video.Visibility.PRIVATE;
                     }
 
-                    dataList.add(new Video(videoUserName, videoName, videoVisibility));
+                    dataList.add(Video.builder().userName(videoUserName).videoName(videoName).visibility(videoVisibility).build());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -5,13 +5,7 @@ public class Video {
     public String userName;
     private Visibility visibility;
 
-    public Video(String userName, String videoName) {
-        this.videoName = videoName;
-        this.userName = userName;
-        this.visibility = Visibility.PUBLIC;
-    }
-
-    public Video(String userName, String videoName, Visibility visibility) {
+    private Video(String userName, String videoName, Visibility visibility) {
         this.videoName = videoName;
         this.userName = userName;
         this.visibility = visibility;
@@ -43,6 +37,47 @@ public class Video {
 
     public Visibility getVisibility() {
         return visibility;
+    }
+
+
+    public static final class VideoBuilder {
+        private String videoName;
+        private String userName;
+        private Visibility visibility;
+
+
+        public VideoBuilder videoName(String videoName){
+            this.videoName = videoName;
+            return this;
+        }
+
+        public VideoBuilder userName(String userName){
+            this.userName = userName;
+            return this;
+        }
+
+        public VideoBuilder visibility(Visibility visibility){
+            this.visibility = visibility;
+            return this;
+        }
+
+
+        public Video build() {
+            if (videoName == null || videoName.isEmpty()) {
+                throw new IllegalArgumentException("videoName must be non-empty value");
+            }
+            if (userName == null) {
+                userName = "";
+            }
+            if (visibility == null) {
+                visibility = visibility.PUBLIC;
+            }
+            return new Video(userName, videoName, visibility);
+        }
+    }
+
+    public static VideoBuilder builder() {
+        return new VideoBuilder();
     }
 
 

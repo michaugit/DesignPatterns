@@ -91,7 +91,7 @@ public class StoryFragment extends Fragment implements StoryAdapter.ListItemClic
                     e.printStackTrace();
                 }
                 try {
-                    dataList.add(new Video(jsonObj.get("username").toString(), jsonObj.get("videoname").toString()));
+                    dataList.add(Video.builder().userName(jsonObj.get("username").toString()).videoName(jsonObj.get("videoname").toString()).build());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
