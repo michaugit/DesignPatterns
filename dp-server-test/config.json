@@ -1,0 +1,12 @@
+{
+    storageLocation: "../../../storage/",
+    uploadDir: "../../../storage/tmp/",
+    ffmpegLocation: "../../../vendor/ffmpeg.exe",
+    dbName:"postgres",
+    dbVideoTable: "VideoDB.Videos",
+    dbUserTable: "VideoDB.Users",
+    dbUser: "postgres",
+    dbPass: "haslo",
+    hashMethod: "md5",
+    tokenTTL: "1"
+    }
